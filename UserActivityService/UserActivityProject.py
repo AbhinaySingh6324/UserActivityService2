@@ -62,8 +62,6 @@ db = mongo_client[DB_NAME]
 collection = db["user_activity2"]
 
 app = FastAPI()
-
-# CORS (Cross-Origin Resource Sharing) setup to allow requests from your React.js app
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # by default url of reactapp
@@ -92,8 +90,6 @@ def update_trending_topics():
     filtered_activities = collection.find({
         "timestamp": {"$gte": start_date, "$lte": end_date}
     })
-
-    # Extract search queries and count occurrences
     search_queries = [activity["search_query"] for activity in filtered_activities]
     query_counts = Counter(search_queries)
 
