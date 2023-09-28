@@ -1,38 +1,3 @@
-# import time
-# from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
-# from datetime import datetime, timedelta, timezone
-# from pydantic import BaseModel
-# from collections import Counter
-# from typing import List
-# from fastapi.responses import JSONResponse
-# from pymongo import MongoClient
-# from cachetools import TTLCache
-# MONGODB_URL = "mongodb+srv://abhinay:abhinay@cluster0.rgz9j.mongodb.net/?retryWrites=true&w=majority"
-# DB_NAME = "mydatabase"
-# # Connect to your MongoDB Atlas cluster
-# mongo_client = MongoClient(MONGODB_URL)
-
-# # Specify the database and collection
-# db = mongo_client[DB_NAME]
-# collection = db["user_activity2"]
-
-# app = FastAPI()
-
-# # CORS (Cross-Origin Resource Sharing) setup to allow requests from your React.js app
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["http://localhost:3000"],  # Adjust this URL according to your React.js app's URL
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
-
-# class UserActivity(BaseModel):
-#     user_id: int
-#     name: str
-#     search_query: str
-#     timestamp: datetime
 # cache = TTLCache(maxsize=1, ttl=3600)
 # cached_data = None
 # @app.post("/track_activity/")
