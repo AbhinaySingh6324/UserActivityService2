@@ -62,8 +62,6 @@ db = mongo_client[DB_NAME]
 collection = db["user_activity2"]
 
 app = FastAPI()
-
-# CORS (Cross-Origin Resource Sharing) setup to allow requests from your React.js app
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # by default url of reactapp
@@ -92,8 +90,6 @@ def update_trending_topics():
     filtered_activities = collection.find({
         "timestamp": {"$gte": start_date, "$lte": end_date}
     })
-
-    # Extract search queries and count occurrences
     search_queries = [activity["search_query"] for activity in filtered_activities]
     query_counts = Counter(search_queries)
 
@@ -105,15 +101,33 @@ def update_trending_topics():
     cached_data = {"timestamp": time.time(), "data": {"top_searches": top_search_queries}}
     cache["trending_topics"] = cached_data
     print(cached_data)
+# Function to remove one-day-old data from the MongoDB collection
+def cleanup_old_data():
+    end_date = datetime.now(timezone.utc)  
+    start_date = end_date - timedelta(days=1)  # one day ago
+
+    # Use the delete_many() method to remove the old documents
+    result = collection.delete_many({"timestamp": {"$lt": start_date}})
+
+    # Print the number of documents deleted for debugging
+    print(f"Deleted {result.deleted_count} old documents")
 
 def cache_update_thread():
     while True:
         update_trending_topics()
-        time.sleep(60)  # Sleep for 1 hour
+        time.sleep(60)  # Sleep for 60 sec must be larger acc to big usecase
+def data_cleanup_thread():
+    while True:
+        cleanup_old_data()
+        time.sleep(7200) #Can be done every 2 hours
 
 update_thread = threading.Thread(target=cache_update_thread)
 update_thread.daemon = True
 update_thread.start()
+
+cleanup_thread = threading.Thread(target=data_cleanup_thread)
+cleanup_thread.daemon = True
+cleanup_thread.start()
 
 @app.on_event("startup")
 async def startup_event():
