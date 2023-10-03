@@ -55,8 +55,7 @@ from pymongo import MongoClient
 from cachetools import TTLCache
 import threading
 
-MONGODB_URL = "mongodb+srv://abhinay:abhinay@cluster0.rgz9j.mongodb.net/?retryWrites=true&w=majority"
-DB_NAME = "mydatabase"
+from secrets_1 import DB_NAME, MONGODB_URL
 mongo_client = MongoClient(MONGODB_URL)
 db = mongo_client[DB_NAME]
 collection = db["user_activity2"]
