@@ -1,67 +1,78 @@
-/* App.css */
-
 body {
-    background-color: black;
-    color: white;
-    font-family: Arial, sans-serif;
-  }
-  
-  .header {
-    background-color: #4caf50; /* Green */
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .title {
-    margin: 0;
-  }
-  
-  .form-container {
-    margin: 20px;
-    padding: 20px;
-    background-color: black;
-    border: 2px solid #4caf50; /* Green */
-    border-radius: 5px;
-  }
-  
-  .label {
-    font-size: 16px;
-    margin-right: 10px;
-  }
-  
-  .input {
-    padding: 5px;
-    border: 1px solid #4caf50; /* Green */
-    border-radius: 3px;
-  }
-  
-  .buttons {
-    margin-top: 10px;
-  }
-  
-  .btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 3px;
-    margin-right: 10px;
-  }
-  
-  .green {
-    background-color: #4caf50; /* Green */
-    color: white;
-  }
-  
-  .black {
-    background-color: black;
-    color: white;
-  }
-  
-  .message {
-    background-color: #333;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 3px;
-  }
-  
+  background-color: #FCFCFC;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #843DF5; 
+  color:white;
+  text-align: center;
+  padding: 20px;
+}
+
+.title {
+  margin: 0;
+}
+
+.form-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #FCFCFC;
+  /* border: 2px solid #843DF5; Green */
+  /* border-radius: 5px; */
+  align-items:center; 
+
+}
+.name{
+  padding-bottom:5px;
+}
+.search-bar {
+  display:flex;
+  align-items:center; 
+}
+.form-group {
+  display:flex;
+  justify-content:center;
+  padding-top:10px;
+}
+.label {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.input {
+  padding: 5px;
+  border: 1px solid #843DF5; /* Green */
+  border-radius: 3px;
+  width:500px;
+}
+
+.btn {
+  padding: 7px 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+.trend {
+  display:flex; 
+  justify-content:center;
+  padding-top:10px;
+}
+.green {
+  background-color: #843DF5; 
+  color: white;
+}
+
+.black {
+  background-color: #843DF5;
+  color: white;
+}
+
+.message {
+  background-color: #843DF5;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 3px;
+}

@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './style/App.css'; // Import your CSS file for styling
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import "./style/App.css"; // Import your CSS file for styling
 
 function App() {
   const [userActivity, setUserActivity] = useState({
-    user_id: '', // Make user_id mutable
-    name: 'John',
-    search_query: '',
+    user_id: 0, // Make user_id mutable
+    name: "",
+    search_query: "",
     timestamp: new Date().toISOString(),
   });
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
+  const [trends, setTrends] = useState(null);
 
   const trackActivity = () => {
     axios
@@ -25,11 +26,18 @@ function App() {
       });
   };
 
+  useEffect(()=>{
+    getMostSearchedTopics();
+  },[])
   const getMostSearchedTopics = () => {
     axios
-      .get(`http://localhost:8000/most_searched_topics/?name=${userActivity.name}`)
+      .get(
+        `http://localhost:8000/most_searched_topics/?name=${userActivity.name}`
+      )
       .then((response) => {
-        setMessage(`Top Searched Topics: ${JSON.stringify(response.data.top_searches)}`);
+        setTrends(
+          response.data.top_searches
+        );
       })
       .catch((error) => {
         setMessage(`Error: ${error.message}`);
@@ -39,49 +47,60 @@ function App() {
   return (
     <div className="App">
       <header className="header">
-        <h1 className="title">FastAPI and React.js Integration</h1>
+        <h1 className="title">Datum Intel User Activity</h1>
       </header>
       <div className="form-container">
         <div className="form-group">
-          <label className="label">User ID:</label>
-          <input
-            className="input"
-            type="text"
-            value={userActivity.user_id}
-            onChange={(e) => setUserActivity({ ...userActivity, user_id: e.target.value })}
-          />
+          <div className="name">
+            <input
+              className="input"
+              type="text"
+              placeholder="Enter your name.."
+              value={userActivity.name}
+              onChange={(e) =>
+                setUserActivity({ ...userActivity, name: e.target.value })
+              }
+            />
+          </div>
         </div>
         <div className="form-group">
-          <label className="label">Name:</label>
-          <input
-            className="input"
-            type="text"
-            value={userActivity.name}
-            onChange={(e) => setUserActivity({ ...userActivity, name: e.target.value })}
-          />
+          <div className="search-bar">
+            <input
+              className="input"
+              type="text"
+              placeholder="Enter text here.."
+              value={userActivity.search_query}
+              onChange={(e) =>
+                setUserActivity({
+                  ...userActivity,
+                  search_query: e.target.value,
+                })
+              }
+            />
+            <div className="buttons">
+              <button className="btn green" onClick={trackActivity}>
+                Search
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="form-group">
-          <label className="label">Search Query:</label>
-          <input
-            className="input"
-            type="text"
-            value={userActivity.search_query}
-            onChange={(e) =>
-              setUserActivity({ ...userActivity, search_query: e.target.value })
-            }
-          />
+        <div className="trend">
+          <div>
+            <div>
+              <h2>Trending Searches &#128200;</h2>
+            </div>
+            <div>
+              {trends?(trends.map((trend, index) => {
+                return (
+                  <div key={index}>
+                    <div>{trend}</div>
+                    <hr />
+                  </div>
+                );
+              })):null}
+            </div>
+          </div>
         </div>
-        <div className="buttons">
-          <button className="btn green" onClick={trackActivity}>
-            Track Activity
-          </button>
-          <button className="btn black" onClick={getMostSearchedTopics}>
-            Get Most Searched Topics
-          </button>
-        </div>
-      </div>
-      <div>
-        {message && <p className="message">{message}</p>}
       </div>
     </div>
   );
